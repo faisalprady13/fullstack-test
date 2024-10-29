@@ -1,4 +1,4 @@
-import express, { Express, Request, Response } from "express";
+import express, { Express, NextFunction, Request, Response } from "express";
 import cors from "cors";
 import { Product } from "@shared/types";
 import { mockupData } from "./mockupData";
@@ -29,6 +29,11 @@ app.get("/api/products/:id", (req: Request, res: Response) => {
   }
 
   res.json(result);
+});
+
+app.use((err: Error, req: Request, res: Response, next: NextFunction) => {
+  console.error("Server error:", err.message);
+  res.status(500).json({ error: "Internal Server Error" });
 });
 
 app.listen(PORT, () => {
