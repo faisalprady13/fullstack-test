@@ -124,7 +124,7 @@ describe("server", () => {
       const response = await request(server).get("/api/products/999");
       expect(response.status).toBe(404);
       expect(response.body).toEqual({
-        message: `Item with ID '999' not found.`,
+        message: `Product with ID '999' not found.`,
       });
     });
   });
