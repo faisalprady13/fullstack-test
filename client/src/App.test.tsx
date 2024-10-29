@@ -1,11 +1,26 @@
 import React from "react";
-import { render, screen } from "@testing-library/react";
+import { render, screen, waitFor } from "@testing-library/react";
 import App from "./App";
 
 describe("App", () => {
-  it("renders title", () => {
+  beforeEach(() => {
+    global.fetch = jest.fn(() => {
+      return Promise.resolve({
+        json: () => Promise.resolve([]),
+      });
+    }) as jest.Mock;
+  });
+
+  afterEach(() => {
+    jest.clearAllMocks();
+  });
+
+  it("renders title", async () => {
     render(<App />);
-    const linkElement = screen.getByText("Flink Products");
-    expect(linkElement).toBeInTheDocument();
+
+    await waitFor(() => {
+      const textElement = screen.getByText("Flink Products");
+      expect(textElement).toBeInTheDocument();
+    });
   });
 });
