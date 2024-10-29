@@ -87,14 +87,34 @@ npm run start
 
 The server will be available at `http://localhost:3000`.
 
+### 5. Running test for the Server
+
+If you'd like to run test for the server navigate to the `server` directory and start the test:
+
+```bash
+cd server
+npm run test
+```
+
+### 6. Running test for the Client
+
+If you'd like to run test for the server navigate to the `client` directory and start the test:
+
+```bash
+cd client
+npm run test
+```
+
 ## Folder Overview
 
 - `client`: Contains the React frontend.
 - `server`: Contains the Express backend.
+- `shared`: Contains the shared object types for the app (because the app is a monorepo).
 
 ## API Endpoint
 
-- `GET /api/hello`: Returns a JSON object with a `message` field saying "Hello from Flink!".
+- `GET /api/products`: Returns a JSON object with all available products.
+- `GET /api/products/:id`: Returns a JSON object with a specific requested product
 
 ## Tasks before the live coding interview
 
