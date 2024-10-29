@@ -56,6 +56,7 @@ const App: React.FC = () => {
       </p>
       {visible && (
         <Alert
+          className="alert"
           message={errorText}
           type="error"
           closable
@@ -63,6 +64,7 @@ const App: React.FC = () => {
         />
       )}
       <Search
+        className="searchBox"
         placeholder="product ID"
         enterButton="Fetch Product"
         onSearch={fetchProduct}
