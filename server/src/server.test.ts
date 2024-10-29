@@ -1,6 +1,5 @@
 import request from "supertest";
-import { Product } from "@shared/types";
-import { init, server } from "../src/server";
+import { init, server } from "./server";
 
 describe("server", () => {
   it("is defined", async () => {
