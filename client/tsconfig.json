@@ -6,6 +6,8 @@
     "strict": true,
     "esModuleInterop": true,
     "baseUrl": ".",
+    "moduleResolution": "node",
+    "types": ["node", "jest", "@testing-library/jest-dom"],
     "paths": {
       "@shared/*": ["../shared/*"]
     }

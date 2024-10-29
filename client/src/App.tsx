@@ -15,7 +15,7 @@ const App: React.FC = () => {
 
   return (
     <div>
-      <h1>{products[0] ? products[0].name : "Loading..."}</h1>
+      <h1>Flink Products</h1>
     </div>
   );
 };
