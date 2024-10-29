@@ -1,35 +1,26 @@
 import express, { Express, Request, Response } from "express";
 import cors from "cors";
 import { Product } from "@shared/types";
+import { mockupData } from "./mockupData";
 
-const data: Product[] = [
-  {
-    id: 1,
-    name: "Product A",
-    description: "Product A description",
-    price: 20,
-  },
-  {
-    id: 2,
-    name: "Product B",
-    description: "Product B description",
-    price: 30,
-  },
-];
+let products: Product[];
+
+export const init = (data: Product[] = []) => {
+  products = data;
+};
+init(mockupData);
 
 const app: Express = express();
 const PORT = process.env.PORT || 3000;
 
 app.use(cors());
 
-app.get("/api/hello", (req: Request, res: Response) => {
-  res.json({ message: "Hello from Flink!" });
-});
-
 app.get("/api/products", (req: Request, res: Response) => {
-  res.json(data);
+  res.json(products);
 });
 
 app.listen(PORT, () => {
   console.log(`Server is running on http://localhost:${PORT}`);
 });
+
+export const server = app;
