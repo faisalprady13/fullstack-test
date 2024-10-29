@@ -19,6 +19,18 @@ app.get("/api/products", (req: Request, res: Response) => {
   res.json(products);
 });
 
+app.get("/api/products/:id", (req: Request, res: Response) => {
+  const { id } = req.params;
+
+  const result = products.find((product) => product.id === Number(id));
+
+  if (!result) {
+    res.status(404).json({ message: `Item with ID '${id}' not found.` });
+  }
+
+  res.json(result);
+});
+
 app.listen(PORT, () => {
   console.log(`Server is running on http://localhost:${PORT}`);
 });
