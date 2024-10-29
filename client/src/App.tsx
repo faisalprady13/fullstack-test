@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { Product } from "@shared/types";
 import ProductTable from "./components/ProductTable";
-import { Alert, Input } from "antd";
+import { Alert, Button, Input } from "antd";
 
 const { Search } = Input;
 
@@ -11,20 +11,28 @@ const App: React.FC = () => {
   const [errorText, setErrorText] = useState("");
 
   useEffect(() => {
-    fetch("http://localhost:3000/api/products")
-      .then((res) => res.json())
-      .then((data) => {
-        setProducts(data);
-      })
-      .catch((err) => console.error(err));
+    fetchAll();
   }, []);
 
-  const handleSearch = async (val: string) => {
+  const fetchAll = async () => {
+    const res = await fetch(`http://localhost:3000/api/products`);
+    handleResponse(res);
+  };
+
+  const fetchProduct = async (val: string) => {
     const res = await fetch(`http://localhost:3000/api/products/${val}`);
+    handleResponse(res);
+  };
+
+  const handleResponse = async (res: Response) => {
     const data = await res.json();
     if (res.status === 200) {
       setVisible(false);
-      setProducts([data]);
+      if (Array.isArray(data)) {
+        setProducts(data);
+      } else {
+        setProducts([data]);
+      }
     } else {
       setProducts([]);
       setErrorText(data.message);
@@ -39,9 +47,12 @@ const App: React.FC = () => {
   return (
     <div>
       <h1>Flink Products</h1>
+      <Button type="primary" onClick={fetchAll}>
+        Fetch All Products
+      </Button>
       <p>
-        for the purpose of the test, the search button below will fetch a new
-        data instead of searching from the already fetched data
+        for the purpose of the test, the search function below will fetch a new
+        data instead of searching from the saved data
       </p>
       {visible && (
         <Alert
@@ -54,7 +65,7 @@ const App: React.FC = () => {
       <Search
         placeholder="product ID"
         enterButton="Fetch Product"
-        onSearch={handleSearch}
+        onSearch={fetchProduct}
       />
       <ProductTable data={products} />
     </div>
