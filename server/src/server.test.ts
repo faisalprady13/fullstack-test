@@ -99,7 +99,7 @@ describe("server", () => {
       });
     });
 
-    it("returns status 404 with correct error message, if the Id is not found", async () => {
+    it("returns status 404 with error message, if the Id is not found", async () => {
       const data = [
         {
           id: 1,
@@ -107,24 +107,29 @@ describe("server", () => {
           description: "Product A description",
           price: 20,
         },
-        {
-          id: 2,
-          name: "Product B",
-          description: "Product B description",
-          price: 30,
-        },
-        {
-          id: 3,
-          name: "Product C",
-          description: "Product C description",
-          price: 40,
-        },
       ];
       init(data);
       const response = await request(server).get("/api/products/999");
       expect(response.status).toBe(404);
       expect(response.body).toEqual({
-        message: `Product with ID '999' not found.`,
+        message: `Product with ID '999' is not found.`,
+      });
+    });
+
+    test("return status 400 with error message, if ID is invalid", async () => {
+      const data = [
+        {
+          id: 1,
+          name: "Product A",
+          description: "Product A description",
+          price: 20,
+        },
+      ];
+      init(data);
+      const response = await request(server).get("/api/products/abc");
+      expect(response.status).toBe(400);
+      expect(response.body).toEqual({
+        message: "Invalid ID format. ID must be a number.",
       });
     });
   });

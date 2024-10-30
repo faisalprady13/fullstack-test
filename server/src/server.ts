@@ -2,6 +2,7 @@ import express, { Express, NextFunction, Request, Response } from "express";
 import cors from "cors";
 import { Product } from "@shared/types";
 import { mockupData } from "./mockupData";
+import { log } from "console";
 
 let products: Product[];
 
@@ -22,10 +23,18 @@ app.get("/api/products", (req: Request, res: Response) => {
 app.get("/api/products/:id", (req: Request, res: Response) => {
   const { id } = req.params;
 
+  if (!Number.isInteger(Number(id))) {
+    res
+      .status(400)
+      .json({ message: "Invalid ID format. ID must be a number." });
+    return;
+  }
+
   const result = products.find((product) => product.id === Number(id));
 
   if (!result) {
-    res.status(404).json({ message: `Product with ID '${id}' not found.` });
+    res.status(404).json({ message: `Product with ID '${id}' is not found.` });
+    return;
   }
 
   res.json(result);
